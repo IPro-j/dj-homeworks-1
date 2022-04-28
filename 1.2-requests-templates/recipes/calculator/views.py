@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+
 DATA = {
     'omlet': {
         'яйца, шт': 2,
@@ -16,6 +17,14 @@ DATA = {
         'сыр, ломтик': 1,
         'помидор, ломтик': 1,
     },
+    'pancakes': {
+        'Молоко, мл': 700,
+        'Яйца куриные, шт': 3,
+        'Масло растительное, ст. ложки': 3,
+        'Мука, г': 300,
+        'Сахар, ст. ложки': 2,
+        'Соль, щепотки': 2,
+    },
     # можете добавить свои рецепты ;)
 }
 
@@ -28,3 +37,8 @@ DATA = {
 #     'ингредиент2': количество2,
 #   }
 # }
+
+def recipe(request):
+    name = request.GET.get('name')
+    context = {'recipe': DATA.get(name)}
+    return render(request, 'calculator/index.html', context)
