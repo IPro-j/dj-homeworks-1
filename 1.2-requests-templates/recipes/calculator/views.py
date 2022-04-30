@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+import copy
 
 DATA = {
     'omlet': {
@@ -38,7 +38,12 @@ DATA = {
 #   }
 # }
 
+
 def recipe(request):
     name = request.GET.get('name')
-    context = {'recipe': DATA.get(name)}
+    servings = int(request.GET.get('servings', 1))
+    context = {'recipe': copy.deepcopy(DATA.get(name)),
+               }
+    for key in context['recipe']:
+        context['recipe'][key] = servings*context['recipe'][key]
     return render(request, 'calculator/index.html', context)
