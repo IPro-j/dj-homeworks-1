@@ -15,13 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from measurement.views import SensorListView, MeasurementView
+from measurement.views import SensorListView, MeasurementsView, SensorUpdateView
 from measurement.views import SensorView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('measurement.urls')),  # подключаем маршруты из приложения measurement
     path('sensors/', SensorListView.as_view()),
-    path('measurement/', MeasurementView.as_view()),
+    path('measurements/', MeasurementsView.as_view()),
     path('sensor/<pk>/', SensorView.as_view()),
+    path('sensor/update/<pk>/', SensorUpdateView.as_view()),
 ]
+
+
