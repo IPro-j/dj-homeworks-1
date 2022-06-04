@@ -42,6 +42,9 @@ class AdvertisementSerializer(serializers.ModelSerializer):
 
         adv_open = Advertisement.objects.filter(creator=self.context["request"].user, status='OPEN')
         if adv_open.count() > 9:
-            data["status"] = 'CLOSED'
+            if 'status' in data and data['status'] == 'OPEN':
+                raise serializers.ValidationError("This status is not possible: limit of open ads has been reached")
+            elif Advertisement.objects.filter(title=data["title"], description=data["description"]).count() == 0:
+                raise serializers.ValidationError("The limit of open ads has been reached")
         # TODO: добавьте требуемую валидацию
         return data
