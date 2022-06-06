@@ -39,12 +39,11 @@ class AdvertisementSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """Метод для валидации. Вызывается при создании и обновлении."""
-
         adv_open = Advertisement.objects.filter(creator=self.context["request"].user, status='OPEN')
         if adv_open.count() > 9:
-            if 'status' in data and data['status'] == 'OPEN':
-                raise serializers.ValidationError("This status is not possible: limit of open ads has been reached")
-            elif Advertisement.objects.filter(title=data["title"], description=data["description"]).count() == 0:
+            if self.context['view'].action == "create":
                 raise serializers.ValidationError("The limit of open ads has been reached")
+            elif 'status' in data and data['status'] == 'OPEN':
+                raise serializers.ValidationError("This status is not possible: limit of open ads has been reached")
         # TODO: добавьте требуемую валидацию
         return data
