@@ -104,7 +104,7 @@ def test_course_patch(api_client, student_factory, course_factory):
     courses = course_factory(_quantity=1)
 
     # Act
-    respond = api_client.patch('/api/v1/courses/', {"id": courses[0].id, "name": "Физика"})
+    respond = api_client.patch('/api/v1/courses/%s/' % courses[0].id, {"name": "Физика"})
 
     # Assert
     assert respond.status_code == 200
@@ -116,7 +116,7 @@ def test_course_delete(api_client, student_factory, course_factory):
     courses = course_factory(_quantity=1)
 
     # Act
-    respond = api_client.delete('/api/v1/courses/', {'id': courses[0].id})
+    respond = api_client.delete('/api/v1/courses/%s/' % courses[0].id)
 
     # Assert
     assert respond.status_code == 200 or respond.status_code == 204
