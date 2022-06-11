@@ -30,12 +30,12 @@ def test_course_create(api_client, student_factory, course_factory):
     courses = course_factory(_quantity=1)
 
     # Act
-    respond = api_client.get('/api/v1/courses/', {'name': courses[0].name})
+    respond = api_client.get('/api/v1/courses/%s/' % courses[0].id)
     data = respond.json()
 
     # Assert
     assert respond.status_code == 200
-    assert data[0]['name'] == courses[0].name
+    assert data['name'] == courses[0].name
 
 
 @pytest.mark.django_db
@@ -44,10 +44,9 @@ def test_course_list_create(api_client, student_factory, course_factory):
     url = reverse("courses-list")
     courses = course_factory(_quantity=10)
 
-    #Act
+    # Act
     respond = api_client.get('/api/v1/courses/')
     data = respond.json()
-    print(data[0]['name'])
 
     # Assert
     assert respond.status_code == 200
